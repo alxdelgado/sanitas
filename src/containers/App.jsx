@@ -6,6 +6,7 @@ import regeneratorRuntime from "regenerator-runtime";
 // import components; 
 import InfoBox from '../components/info-box/info-box.jsx';
 import Map from '../components/maps/map.jsx';
+import Table from '../components/table/table.jsx';
 
 
 // import material-ui components; 
@@ -19,25 +20,20 @@ export default function App() {
     // init state; 
     const [countries, setCountries] = useState([]);
     const [country, setCountry] = useState("Worldwide");
-    
-
-    // individual country;
     const [countryInfo, setCountryInfo ] = useState({});
-
     const [tableData, setTableData] = useState([]);
 
+    // useEffect cycle grabbing all data;
     useEffect(() => {
         fetch('https://disease.sh/v3/covid-19/all')
         .then(response => response.json())
         .then(data => {
-            
             setCountryInfo(data);
         })
     }, []);
 
-    // useEffect;
+    // useEffect cycle grabbing the country data;
     useEffect(() => {
-        
         const getCountriesData = async () => {
             await fetch("https://disease.sh/v3/covid-19/countries")
             .then((response) => response.json())
@@ -48,7 +44,7 @@ export default function App() {
                     value: country.countryInfo.iso2 // UK, USA FR
                 }));
 
-                setTabledata(data);
+                setTableData(data);
                 setCountries(countries);
             });
         }; 
@@ -59,9 +55,6 @@ export default function App() {
     // onchange method; 
     const onCountryChange = async (event) => {
         const countryCode = event.target.value;
-        console.log( "yooo >>>> ", countryCode);
-
-        setCountry(countryCode);
 
         const url = 
         countryCode === 'worldwide' 
@@ -74,11 +67,15 @@ export default function App() {
             setCountry(countryCode);
             setCountryInfo(data);
         })
-    }
+    }; 
+
+    console.log("COUNTRY INFO >>>>>", countryInfo);
 
 
     return (
+        // App Main Container
         <div className="app">
+            {/* App Left */}
            <div className="app_left">
                 <div className="app_header">
                     <h1>COVID-19 Tracker</h1>
@@ -93,7 +90,8 @@ export default function App() {
                 </div>
                 <div className="app_stats">
                     <InfoBox title="Coronavirus Cases" cases={countryInfo.todayCases} total={countryInfo.cases}/>
-                    <InfoBox title="Coronavirus Cases" cases={countryInfo.todayCases} total={countryInfo.cases}/>
+                    <InfoBox title="Recovered" cases={countryInfo.todayCases} total={countryInfo.cases}/>
+                    <InfoBox title="Deaths" cases={countryInfo.todayDeaths} total={countryInfo.deaths}/>
                 </div>
             </div>
 
@@ -101,7 +99,8 @@ export default function App() {
             <Card className="app_right">
                 <CardContent>
                     <h3>Live Cases by Country</h3>
-                    
+                    <Table countries={tableData} />
+                    <h3>Worldwide new cases</h3>
                 </CardContent>
 
             </Card>

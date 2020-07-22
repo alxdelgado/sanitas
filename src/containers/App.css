@@ -12,6 +12,10 @@ body {
     padding: 20px;
 }
 
+.app_left {
+    flex: 0.9;
+}
+
 .app_header {
     display: flex; 
     align-items: center;
