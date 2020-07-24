@@ -8,6 +8,7 @@ import InfoBox from '../components/info-box/info-box.jsx';
 import Map from '../components/maps/map.jsx';
 import Table from '../components/table/table.jsx';
 import { sortData } from '../utils.js';
+import LineGraph from '../LineGraph.js';
 
 
 // import material-ui components; 
@@ -103,6 +104,7 @@ export default function App() {
                     <h3>Live Cases by Country</h3>
                     <Table countries={tableData} />
                     <h3>Worldwide new cases</h3>
+                    <LineGraph />
                 </CardContent>
 
             </Card>
