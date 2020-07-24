@@ -7,6 +7,7 @@ import regeneratorRuntime from "regenerator-runtime";
 import InfoBox from '../components/info-box/info-box.jsx';
 import Map from '../components/maps/map.jsx';
 import Table from '../components/table/table.jsx';
+import { sortData } from '../utils.js';
 
 
 // import material-ui components; 
@@ -44,7 +45,8 @@ export default function App() {
                     value: country.countryInfo.iso2 // UK, USA FR
                 }));
 
-                setTableData(data);
+                const sortedData = sortData(data);
+                setTableData(sortedData);
                 setCountries(countries);
             });
         }; 
