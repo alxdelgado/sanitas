@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import numeral from 'numeral';
 
 // Import regenerator runtime; 
 import regeneratorRuntime from "regenerator-runtime";
@@ -7,7 +8,7 @@ import regeneratorRuntime from "regenerator-runtime";
 import InfoBox from '../components/info-box/info-box.jsx';
 import Map from '../components/maps/map';
 import Table from '../components/table/table.jsx';
-import { sortData } from '../utils.js';
+import { sortData, prettyPrintStat } from '../utils.js';
 import LineGraph from '../LineGraph.js';
 
 
@@ -95,18 +96,43 @@ export default function App() {
                         <Select variant="outlined" value={country} onChange={onCountryChange}>
                             {/* loop through all the countries and list all countries*/}
                             <MenuItem value="worldwide"></MenuItem>
-                            {countries.map((country) => (
-                                <MenuItem value={country.value}>{country.name}</MenuItem>
+                            {countries.map((country, idx) => (
+                                <MenuItem key={idx} value={country.value}>{country.name}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
                 </div>
                 <div className="app_stats">
-                    <InfoBox title="Coronavirus Cases" cases={countryInfo.todayCases} total={countryInfo.cases}/>
-                    <InfoBox title="Recovered" cases={countryInfo.todayCases} total={countryInfo.cases}/>
-                    <InfoBox title="Deaths" cases={countryInfo.todayDeaths} total={countryInfo.deaths}/>
+                    <InfoBox 
+                        onClick={(e) => setCasesType("cases")}
+                        title="Coronavirus Cases"
+                        isRed
+                        active={casesType === "cases"} 
+                        cases={prettyPrintStat(countryInfo.todayCases)} 
+                        total={numeral(countryInfo.cases).format("0.0a")}
+                    />
+                    <InfoBox
+                        onClick={(e) => setCasesType('recovered')} 
+                        title="Recovered"
+                        active={casesType === "recovered"} 
+                        cases={prettyPrintStat(countryInfo.todayCases)} 
+                        total={numeral(countryInfo.recovered).format("0.0a")}
+                    />
+                    <InfoBox 
+                        onClick={(e) => setCasesType('deaths')}
+                        title="Deaths"
+                        isRed
+                        active={casesType === "deaths"}
+                        cases={prettyPrintStat(countryInfo.todayDeaths)} 
+                        total={numeral(countryInfo.deaths).format("0.0a")}
+                    />
                 </div>
-                 <Map center={mapCenter} zoom={mapZoom} countries={mapCountries} casesType={casesType} />
+                 <Map 
+                    center={mapCenter} 
+                    zoom={mapZoom} 
+                    countries={mapCountries} 
+                    casesType={casesType} 
+                />
             </div>
     
             {/* App Right */}
@@ -115,7 +141,7 @@ export default function App() {
                     <div className="app_information">
                         <h3>Live Cases by Country</h3>
                         <Table countries={tableData} />
-                        <h3>Worldwide new cases</h3>
+                        <h3>Worldwide new cases {casesType}</h3>
                         <LineGraph casesType={casesType} />
                     </div>
                 </CardContent>
