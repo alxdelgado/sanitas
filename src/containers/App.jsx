@@ -95,7 +95,7 @@ export default function App() {
                     <FormControl className="app_dropdown">
                         <Select variant="outlined" value={country} onChange={onCountryChange}>
                             {/* loop through all the countries and list all countries*/}
-                            <MenuItem value="worldwide"></MenuItem>
+                            <MenuItem value="worldwide">Worldwide</MenuItem>
                             {countries.map((country, idx) => (
                                 <MenuItem key={idx} value={country.value}>{country.name}</MenuItem>
                             ))}
@@ -141,8 +141,8 @@ export default function App() {
                     <div className="app_information">
                         <h3>Live Cases by Country</h3>
                         <Table countries={tableData} />
-                        <h3>Worldwide new cases {casesType}</h3>
-                        <LineGraph casesType={casesType} />
+                        <h3 className="app_graphTitle">Worldwide new {casesType}</h3>
+                        <LineGraph className="app_graph" casesType={casesType} />
                     </div>
                 </CardContent>
 

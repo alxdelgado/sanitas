@@ -49,10 +49,27 @@ body {
     margin-top: 1rem;
   }
 
-.app_right > h3 {
-    margin-top: 8px;
-    margin-bottom: 8px;
+.app_right {
+    display: flex; 
+    flex-direction: column; 
 }
+
+.app_right .MultiCardContent-root {
+    display: flex; 
+    flex-direction: column; 
+    flex-grow: 1;
+}
+
+.app_graph {
+    flex-grow: 1;
+}
+
+.app_graphTitle {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
 
 
 @media (max-width: 990px) {
