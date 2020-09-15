@@ -16,6 +16,11 @@ body {
     flex: 0.9;
 }
 
+.app_right h3 {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
 .app_header {
     display: flex; 
     align-items: center;
